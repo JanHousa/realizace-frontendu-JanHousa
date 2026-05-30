@@ -34,7 +34,17 @@ export default function WeddingDetail() {
 
   async function saveTask(form) {
     try {
-      if (editingTask) await taskApi.update({ ...editingTask, ...form, weddingId: id });
+      if (editingTask) {
+  const dtoIn = {
+    id: editingTask.id,
+    title: form.title,
+    dueDate: form.dueDate,
+    status: form.status,
+    description: form.description
+  };
+
+  await taskApi.update(dtoIn);
+}
       else await taskApi.create({ ...form, weddingId: id });
       setEditingTask(null);
       setIsCreatingTask(false);

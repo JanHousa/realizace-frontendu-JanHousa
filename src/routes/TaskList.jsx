@@ -47,7 +47,17 @@ export default function TaskList() {
 
   async function saveTask(form) {
     try {
-      if (editingTask) await taskApi.update({ ...editingTask, ...form });
+      if (editingTask) {
+  const dtoIn = {
+    id: editingTask.id,
+    title: form.title,
+    dueDate: form.dueDate,
+    status: form.status,
+    description: form.description
+  };
+
+  await taskApi.update(dtoIn);
+}
       else await taskApi.create(form);
       setEditingTask(null);
       setIsCreating(false);
